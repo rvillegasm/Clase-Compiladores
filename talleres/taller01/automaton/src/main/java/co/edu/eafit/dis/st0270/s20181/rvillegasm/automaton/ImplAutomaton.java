@@ -16,7 +16,7 @@ import co.edu.eafit.dis.st0270.automaton.AutomatonException;
  *
  */
 
-  // TODO: change every atribute for this.<atribute> in cleaning(), implement DFS with delta (like graphs)
+  // TODO: change every atribute for this.<atribute>
 public class ImplAutomaton extends Automaton
 {
   public ImplAutomaton(
