@@ -25,7 +25,6 @@ public class ImplAutomaton extends Automaton
                           Map<Pair<State,Character>,State> delta, 
                           State initial, 
                           Set<State> finals
-
                       ) throws AutomatonException, IllegalArgumentException {
 
     super(states, alphabet, delta, initial, finals);
@@ -64,7 +63,7 @@ public class ImplAutomaton extends Automaton
 		}
 		return this;
 	}
-	// auxiliar function for accesible states
+	// auxiliary function that finds the Accesible states
 	private boolean isAccesible( 
 																Map<State,Boolean> visited, 
 																Map<Pair<State,Character>,State> delta, 
@@ -80,7 +79,7 @@ public class ImplAutomaton extends Automaton
 		}
 		return false;
 	}
-	// auxiliar function for post-accesible states
+	// auxiliary function that finds the Post-accesible states
 	private boolean isPostAccesible( 
 																Map<State,Boolean> visited, 
 																Map<Pair<State,Character>,State> delta, 
@@ -98,28 +97,21 @@ public class ImplAutomaton extends Automaton
 	}
 
 	@Override
-	public Automaton getMinimal() throws AutomatonException, IllegalArgumentException {
-		return null;
-	}
-
-	@Override
 	public boolean isClean() {
-		//Getting the accesible states
+		//Getting the Accesible states
 		Set<State> accesible = new HashSet<State>();
 		for(State q : states) {
-			for(Character a : alphabet) {
-				if(delta.containsKey(Pair.of(initial, a)) && delta.get(Pair.of(initial, a)).equals(q)) {
-					accesible.add(q);
-				}
+			Map<State,Boolean> visited = new HashMap<State,Boolean>();
+			if(isAccesible(visited, delta, alphabet, q, initial)) {
+				accesible.add(q);
 			}
 		}
 		//Getting the Post-accesible states
 		Set<State> postAccesible = new HashSet<State>();
 		for(State q : states) {
-			for(Character a : alphabet) {
-				if(delta.containsKey(Pair.of(q, a)) && finals.contains(delta.get(Pair.of(q, a)))) {
-					postAccesible.add(q);
-				}
+			Map<State,Boolean> visited = new HashMap<State,Boolean>();
+			if(isPostAccesible(visited, delta, alphabet, finals, q)) {
+				postAccesible.add(q);
 			}
 		}
 		//Check if every state is in both sets. If not, it is not clean
@@ -132,7 +124,13 @@ public class ImplAutomaton extends Automaton
 	}
 
 	@Override
+	public Automaton getMinimal() throws AutomatonException, IllegalArgumentException {
+		return null;
+	}
+
+	@Override
 	public boolean isMinimal() {
 		return false;
 	}
+	
 }
