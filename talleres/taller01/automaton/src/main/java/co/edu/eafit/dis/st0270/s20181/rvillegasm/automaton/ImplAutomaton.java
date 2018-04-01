@@ -16,9 +16,9 @@ import co.edu.eafit.dis.st0270.automaton.AutomatonException;
  *
  */
 
-  // TODO: change every atribute for this.<atribute>
 public class ImplAutomaton extends Automaton
 {
+	/** Constructor method */
   public ImplAutomaton(
                           Set<State> states, 
                           Set<Character> alphabet, 
@@ -30,40 +30,41 @@ public class ImplAutomaton extends Automaton
     super(states, alphabet, delta, initial, finals);
 
   }
-    
+		
+	/** Cleans the automaton, removing from it the useless states (non-Accesible and/or non-Post-accesible) */
 	@Override
 	public Automaton cleaning() throws AutomatonException, IllegalArgumentException {
 		//Getting the accesible states
 		Set<State> accesible = new HashSet<State>();
-		for(State q : states) {
+		for(State q : this.states) {
 			Map<State,Boolean> visited = new HashMap<State,Boolean>();
-			if(isAccesible(visited, delta, alphabet, q, initial)) {
+			if(isAccesible(visited, this.delta, this.alphabet, q, this.initial)) {
 				accesible.add(q);
 			}
 		}
 		//Getting the Post-accesible states
 		Set<State> postAccesible = new HashSet<State>();
-		for(State q : states) {
+		for(State q : this.states) {
 			Map<State,Boolean> visited = new HashMap<State,Boolean>();
-			if(isPostAccesible(visited, delta, alphabet, finals, q)) {
+			if(isPostAccesible(visited, this.delta, this.alphabet, this.finals, q)) {
 				postAccesible.add(q);
 			}
 		}
 		//Looking for the obsolete states and removing them from the automaton
-		for(State q : states) {
+		for(State q : this.states) {
 			if(!accesible.contains(q) || !postAccesible.contains(q)) {
-				for(Character a : alphabet) {
-					if(delta.containsKey(Pair.of(q, a))) {
-						delta.remove(Pair.of(q, a));
+				for(Character a : this.alphabet) {
+					if(this.delta.containsKey(Pair.of(q, a))) {
+						this.delta.remove(Pair.of(q, a));
 					}
 				}
-				states.remove(q);
-				finals.remove(q);
+				this.states.remove(q);
+				this.finals.remove(q);
 			}
 		}
 		return this;
 	}
-	// auxiliary function that finds the Accesible states
+	/** Auxiliary function that finds the Accesible states via recursion */
 	private boolean isAccesible( 
 																Map<State,Boolean> visited, 
 																Map<Pair<State,Character>,State> delta, 
@@ -79,7 +80,7 @@ public class ImplAutomaton extends Automaton
 		}
 		return false;
 	}
-	// auxiliary function that finds the Post-accesible states
+	/** Auxiliary function that finds the Post-accesible states via recursion */
 	private boolean isPostAccesible( 
 																Map<State,Boolean> visited, 
 																Map<Pair<State,Character>,State> delta, 
@@ -96,26 +97,27 @@ public class ImplAutomaton extends Automaton
 		return false;
 	}
 
+	/** Returns true if the automaton is clean, or false if it is not */
 	@Override
 	public boolean isClean() {
 		//Getting the Accesible states
 		Set<State> accesible = new HashSet<State>();
-		for(State q : states) {
+		for(State q : this.states) {
 			Map<State,Boolean> visited = new HashMap<State,Boolean>();
-			if(isAccesible(visited, delta, alphabet, q, initial)) {
+			if(isAccesible(visited, this.delta, this.alphabet, q, this.initial)) {
 				accesible.add(q);
 			}
 		}
 		//Getting the Post-accesible states
 		Set<State> postAccesible = new HashSet<State>();
-		for(State q : states) {
+		for(State q : this.states) {
 			Map<State,Boolean> visited = new HashMap<State,Boolean>();
-			if(isPostAccesible(visited, delta, alphabet, finals, q)) {
+			if(isPostAccesible(visited, this.delta, this.alphabet, this.finals, q)) {
 				postAccesible.add(q);
 			}
 		}
 		//Check if every state is in both sets. If not, it is not clean
-		for(State q : states) {
+		for(State q : this.states) {
 			if(!accesible.contains(q) || !postAccesible.contains(q)) {
 				return false;
 			}
@@ -123,11 +125,13 @@ public class ImplAutomaton extends Automaton
 		return true;
 	}
 
+	/** Unimplmented method */
 	@Override
 	public Automaton getMinimal() throws AutomatonException, IllegalArgumentException {
 		return null;
 	}
 
+	/** Unimplmented method */
 	@Override
 	public boolean isMinimal() {
 		return false;
