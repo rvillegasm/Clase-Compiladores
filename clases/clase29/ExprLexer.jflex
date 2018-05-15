@@ -15,8 +15,8 @@ newline = \n|\r\n
 "*" { return new Symbol(ExprSymbolS.MUL); }
 "/" { return new Symbol(ExprSymbols.DIV); }
 "(" { return new Symbol(ExprSymbols.LPAREN); }
-")" { return new symbol(ExprSymbols.RPAREN); }
-{digit} { return new symbol(ExprSymbols.NUMBER); }
+")" { return new Symbol(ExprSymbols.RPAREN); }
+{digit} { return new Symbol(ExprSymbols.NUMBER); }
 {whitespace} {}
 {newline} {}
 <<EOF>> { return new Symbol(ExprSymbols.EOF); }

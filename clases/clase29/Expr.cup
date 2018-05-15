@@ -1,5 +1,5 @@
 
-non terminal int prog, expr, term, factor;
+non terminal Integer prog, expr, term, factor;
 terminal SUM, RES, MUL, DIV, LPAREN, RPAREN, NUMBER;
 
 start with prog;
@@ -17,6 +17,6 @@ term ::= term:t MUL factor:f {: RESULT = t * f; :}
      |   factor:f            {: RESULT = f; :}
      ;
 
-factor ::= NUMBER:n             {: RESULT = n; :}
+factor ::= NUMBER:n             {: RESULT = Integer.parseInt(((ExprLexer) getScanner()).yytext()); :}
        |   LPAREN expr:e RPAREN {: RESULT = e; :}
        ;
