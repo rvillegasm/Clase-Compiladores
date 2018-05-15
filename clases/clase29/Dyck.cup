@@ -1,0 +1,14 @@
+
+
+non terminal prog, dyck;
+terminal LPAREN, RPAREN;
+
+start with prog;
+
+prog ::= dyck;
+
+dyck ::= LPAREN RPAREN
+     	| LPAREN dyck RPAREN
+     	| LPAREN RPAREN dyck
+     	| LPAREN dyck RPAREN dyck
+     ;
