@@ -1,4 +1,4 @@
-
+//compile with javacup -parser DyckParser -symbols DyckSymbols Dyck.cup
 
 non terminal prog, dyck;
 terminal LPAREN, RPAREN;
