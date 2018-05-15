@@ -1,0 +1,22 @@
+
+non terminal int prog, expr, term, factor;
+terminal SUM, RES, MUL, DIV, LPAREN, RPAREN, NUMBER;
+
+start with prog;
+
+prog ::= expr:e  {: System.out.println(e); RESULT = e; :}
+     ;
+
+expr ::= expr:e SUM term:t  {: RESULT = e + t; :}
+     |   expr:e RES term:t  {: RESULT = e - t; :}
+     |   term:t             {: RESULT = t; :}
+     ;
+
+term ::= term:t MUL factor:f {: RESULT = t * f; :}
+     |   term:t DIV factor:f {: RESULT = t / f; :}
+     |   factor:f            {: RESULT = f; :}
+     ;
+
+factor ::= NUMBER:n             {: RESULT = n; :}
+       |   LPAREN expr:e RPAREN {: RESULT = e; :}
+       ;
