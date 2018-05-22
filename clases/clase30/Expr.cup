@@ -1,0 +1,20 @@
+
+	    
+terminal NUMBER, ADD, SUB, TIMES, DIV, LPAREN, RPAREN;
+non terminal Integer prog, expr;
+
+precedence left TIMES, DIV;
+precedence left ADD, SUB;
+
+start with prog;
+
+prog ::= expr:e			{: RESULT = e; :}
+     ;
+
+expr ::= expr:l ADD expr:r	{: RESULT = l + r; :}
+     |	 expr:l SUB expr:r	{: RESULT = l - r; :}
+     |	 expr:l TIMES expr:r	{: RESULT = l * r; :}
+     |	 expr:l DIV expr:r	{: RESULT = l / r; :}
+     | 	 NUMBER:n   		{: RESULT = (Integer) n; :}
+     |	 LPAREN expr:e RPAREN	{: RESULT = e; :}
+     ;

@@ -1,0 +1,38 @@
+
+parser code {:
+		private Integer memory = new Integer(0);
+
+		public Integer getMemory() {
+		  return memory;
+		}
+       	    :}
+	    ;
+	    
+terminal NUMBER, ADD, SUB, TIMES, DIV, STORE, RECALL, LPAREN, RPAREN;
+non terminal Integer prog, expr, term, storable, factor;
+
+start with prog;
+
+prog ::= expr:e			{: RESULT = e; :}
+     ;
+
+expr ::= expr:l ADD term:r	{: RESULT = l + r; :}
+     |	 expr:l SUB term:r	{: RESULT = l - r; :}
+     |	 term:t	    		{: RESULT = t; :}
+     ;
+
+term ::= term:l TIMES storable:r  {: RESULT = l * r; :}
+     |	 term:l DIV storable:r	  {: RESULT = l / r; :}
+     |	 storable:s 		  {: RESULT = s; :}
+     ;
+
+storable ::= factor:f		{: RESULT = f; :}
+	 |   factor:f STORE	{: memory = f;
+	     	      		   RESULT = memory;
+				:}
+	 ;
+
+factor ::= NUMBER:n		 {: RESULT = (Integer) n;  :}
+       |   RECALL	   	 {: RESULT = memory; :}
+       |   LPAREN expr:e RPAREN  {: RESULT = e; :}
+       ;
